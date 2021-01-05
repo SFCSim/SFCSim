@@ -1,5 +1,7 @@
 # SFCSim
-a general network function virtualization resource allocation simulation platform in Python language
+A general network function virtualization resource allocation simulation platform in Python language.  
+
+- Source: [https://github.com/SFCSim/SFCSim](https://note.youdao.com/)
 # dir
 \- sfcsim/&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;main packet  
 \-&emsp;&emsp;&emsp;&emsp;\_\_init\_\_.py  
@@ -49,7 +51,19 @@ $ pip install sfcsim
 
 # Simple example
 
+```
+## For more examples, see the examplez folder ##
+>>> from sfcsim import *
+>>> cernnet=cernnet2()          #实例化
+>>> scheduler=shortest_path_scheduler()
+>>> scheduler.deploy_sfcs(cernnet,cernnet.vnf_types,cernnet.sfcs,sort=True)  
+>>> scheduler.show()
+>>> print(len(scheduler.get_records()))
+>>> cernnet.draw_dynamic(path='D:/result.png')
+```
+
 # Bugs
 Please send email to xuly@bupt.edu.cn
 # License
+Released under the Apache License (see LICENSE.txt):
 
