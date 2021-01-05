@@ -2,8 +2,8 @@ from sfcsim.classes import *
 from sfcsim.algorithms import common
 import time
 class TS_scheduler(dynamic_scheduler):
-    def __init__(self,tabu_length=10,iteration=50,stop_condition=5):
-        super(TS_scheduler, self).__init__()
+    def __init__(self,tabu_length=10,iteration=50,stop_condition=5,log=False):   #log=means not to print deployment procedure information
+        super(TS_scheduler, self).__init__(log=log)
         self.tabu_list=[]
         self.tabu_length=tabu_length          
         self.stop_condition=stop_condition

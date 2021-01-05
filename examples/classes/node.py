@@ -1,12 +1,6 @@
 ########################################
 ###node类测试
 ########################################
-#      add sfcsim path to sys path ##########
-import sys     
-import os
-path=format(os.getcwd())
-sys.path.append(path) 
-# end  
 from sfcsim import *
 print(node.__doc__)
 vnf_types=vnf_types(5)

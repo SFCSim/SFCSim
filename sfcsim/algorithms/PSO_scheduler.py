@@ -4,8 +4,8 @@ from sfcsim.algorithms import common
 import time
 from sfcsim.classes import *
 class PSO_scheduler(dynamic_scheduler):
-    def __init__(self,pN=10,max_iter=100,w_local=0.3,w_global=0.4):
-        super(PSO_scheduler, self).__init__()
+    def __init__(self,pN=10,max_iter=100,w_local=0.3,w_global=0.4,log=False):   #log=means not to print deployment procedure information
+        super(PSO_scheduler, self).__init__(log=log)
         self.__records=super(PSO_scheduler, self).get_records()
         # self.__records=self.get_records()
         self.w_local=w_local    #局部概率

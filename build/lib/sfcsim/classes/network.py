@@ -30,6 +30,7 @@ class network(nodes):
         nodes.__init__(self,nodes1)
         self.G=nx.Graph()
         self.generate()
+        self.figure=''
         if(network_matrix1!=[]):
             data=self.update_edge(network_matrix1)
             self.change_edge(data[0],data[1],data[2])  
@@ -102,7 +103,7 @@ class network(nodes):
         if type(node()) != (type(node2)):
             node2=self.get_node(node2)
         if node1==False or node2==False:
-            print('error!!!node1 or node2 not in node list, can\'t add edge to node doesn\'t exists')
+            print('log: error!!!node1 or node2 not in node list, can\'t add edge to node doesn\'t exists')
         else:
             if 'bandwidth' in link:
                 link['remain_bandwidth']=link['bandwidth']
@@ -116,7 +117,7 @@ class network(nodes):
             if type(node()) != (type(edge[1])):
                 edge[1]=self.get_node(edge[1])
             if edge[0] ==False or edge[1] ==False:
-                print('error!!!can\'t add edge between nodes doesn\'t exist')
+                print('log: error!!!can\'t add edge between nodes doesn\'t exist')
             else:
                 edges2.append(edge)
             if 'bandwidth' in edge[2]:
@@ -131,7 +132,7 @@ class network(nodes):
         if type(node()) != (type(node2)):
             node2=self.get_node(node2)
         if node1==False or node2==False:
-            print('error!!!node1 or node2 not in node list, can\'t delete edge to node doesn\'t exists')
+            print('log: error!!!node1 or node2 not in node list, can\'t delete edge to node doesn\'t exists')
             return False
         else:
             try:
@@ -152,7 +153,7 @@ class network(nodes):
         if type(node()) != (type(node2)):
             node2=self.get_node(node2)
         if node1==False or node2==False:
-            print('error!!!node1 or node2 not in node list, can\'t add edge atts to node doesn\'t exists')
+            print('log: error!!!node1 or node2 not in node list, can\'t add edge atts to node doesn\'t exists')
             return False
         else:
             if 'bandwidth' in atts:
@@ -171,7 +172,7 @@ class network(nodes):
             else:
                 b=key[1]
             if a==False or b==False:
-                print('error!!!node1 or node2 not in node list, can\'t add edge atts to node doesn\'t exists')
+                print('log: error!!!node1 or node2 not in node list, can\'t add edge atts to node doesn\'t exists')
             else:
                 atts2[(a,b)]=atts[key]
         nx.set_edge_attributes(self.G,atts2)
@@ -188,53 +189,61 @@ class network(nodes):
         print('**********************     print nodes and edges in network     *********************')
         self.show_nodes()
         self.show_edges()
-    def draw(self,pos=[],node_size=85000,node_fone_size=15,link_fone_size=25,node_shape='H'):     #画图
-        node_labels ={}# nx.get_node_attributes(G)
-        edge_label ={}# nx.get_edge_attributes(G)
-        node_colors=[]
-        node_sizes=[]
-        for node in self.G.nodes:
-            strs='ID: '+ str(node.get_id())+'\n' 
-            if(node.is_access()==False):
-                str1=('%-6s ' %('att'))
-                str2=('%-6s ' %('all'))
-                vnf_strs=[]
-                for vnf in node.get_vnfs():
-                    vnf_strs.append('%-6s ' %(str(vnf.get_name())))
-                for key in node.get_atts():
-                    if key != 'access':
-                        str1=str1+('%-8s' %(str(key)))
-                        stra=('%.3g/%.3g' %(node.get_remain_resource()[key],node.get_atts()[key]))
-                        str2=str2+('%-8s' %(stra))
-                        i=0
-                        for vnf in node.get_vnfs():
-                            stra=('%.3g/%.3g' %(vnf.get_remain_resource()[key],+vnf.get_atts()[key]))
-                            vnf_strs[i]=vnf_strs[i]+('%-8s' %(stra))
-                            i+=1
-                node_colors.append('yellow') 
-                node_sizes.append(node_size)
-                strs=strs+str1+'\n'+str2
-                for vnf_str in vnf_strs:
-                    strs=strs+'\n'+vnf_str
-            else:
-                node_colors.append('red')
-                node_sizes.append(18000)
-            node_labels[node] = strs.rstrip('\n') 
 
-        for edge in self.G.edges:
-            strs=' '   
-            for key in self.G.edges[edge]:
-                if key =='bandwidth':
-                    stra=('%.3g/%.3g' %(self.G.edges[edge]['remain_bandwidth'],self.G.edges[edge][key]))
-                    strs=strs+'BW'+':'+stra+'\n'
-                elif key!='remain_bandwidth':
-                    strs=strs+key+':'+str(self.G.edges[edge][key])+'\n'
-            edge_label[edge] = strs.rstrip('\n') 
-        nx.draw(self.G,pos=pos,node_size=node_sizes,node_color=node_colors,width=2,edge_color='black',node_shape=node_shape)
-        nx.draw_networkx_labels(self.G, pos=pos, labels=node_labels,font_size=node_fone_size)
-        nx.draw_networkx_edge_labels(self.G, pos=pos,edge_labels=edge_label,font_size=link_fone_size)            
-        plt.show()
-    def draw_dynamic(self,pos=[],node_size=85000,node_fone_size=15,link_fone_size=25,node_shape='H'):     #画图，根据资源占用比显示10级别色差
+    # def draw(self,pos=[],figsize=[36,20],node_size=10000,node_fone_size=8,link_fone_size=9,node_shape='H',path=''):     #画图
+    #     plt.figure(figsize=figsize)
+    #     if(path!=''):
+    #         fig=plt.gcf()
+    #     node_labels ={}# nx.get_node_attributes(G)
+    #     edge_label ={}# nx.get_edge_attributes(G)
+    #     node_colors=[]
+    #     node_sizes=[]
+    #     for node in self.G.nodes:
+    #         strs='ID: '+ str(node.get_id())+'\n' 
+    #         if(node.is_access()==False):
+    #             str1=('%-6s ' %('att'))
+    #             str2=('%-6s ' %('all'))
+    #             vnf_strs=[]
+    #             for vnf in node.get_vnfs():
+    #                 vnf_strs.append('%-6s ' %(str(vnf.get_name())))
+    #             for key in node.get_atts():
+    #                 if key != 'access':
+    #                     str1=str1+('%-8s' %(str(key)))
+    #                     stra=('%.3g/%.3g' %(node.get_remain_resource()[key],node.get_atts()[key]))
+    #                     str2=str2+('%-8s' %(stra))
+    #                     i=0
+    #                     for vnf in node.get_vnfs():
+    #                         stra=('%.3g/%.3g' %(vnf.get_remain_resource()[key],+vnf.get_atts()[key]))
+    #                         vnf_strs[i]=vnf_strs[i]+('%-8s' %(stra))
+    #                         i+=1
+    #             node_colors.append('yellow') 
+    #             node_sizes.append(node_size)
+    #             strs=strs+str1+'\n'+str2
+    #             for vnf_str in vnf_strs:
+    #                 strs=strs+'\n'+vnf_str
+    #         else:
+    #             node_colors.append('red')
+    #             node_sizes.append(18000)
+    #         node_labels[node] = strs.rstrip('\n') 
+
+    #     for edge in self.G.edges:
+    #         strs=' '   
+    #         for key in self.G.edges[edge]:
+    #             if key =='bandwidth':
+    #                 stra=('%.3g/%.3g' %(self.G.edges[edge]['remain_bandwidth'],self.G.edges[edge][key]))
+    #                 strs=strs+'BW'+':'+stra+'\n'
+    #             elif key!='remain_bandwidth':
+    #                 strs=strs+key+':'+str(self.G.edges[edge][key])+'\n'
+    #         edge_label[edge] = strs.rstrip('\n') 
+    #     nx.draw(self.G,pos=pos,node_size=node_sizes,node_color=node_colors,width=2,edge_color='black',node_shape=node_shape)
+    #     nx.draw_networkx_labels(self.G, pos=pos, labels=node_labels,font_size=node_fone_size)
+    #     nx.draw_networkx_edge_labels(self.G, pos=pos,edge_labels=edge_label,font_size=link_fone_size)            
+    #     plt.show()
+    #     plt.close()
+    #     if(path!=''):
+    #         fig.savefig(path)
+    def draw(self,pos=[],figsize=[36,20],node_size=10000,node_fone_size=8,link_fone_size=9,node_shape='H',path=''):     #画图，根据资源占用比显示10级别色差
+
         node_labels ={}# nx.get_node_attributes(G)
         edge_label ={}# nx.get_edge_attributes(G)
         node_colors=[]
@@ -290,6 +299,82 @@ class network(nodes):
                     strs=strs+key+':'+str(self.G.edges[edge][key])+'\n'
             edge_label[edge] = strs.rstrip('\n') 
             edge_colors.append(color_list[color])
+        plt.figure(figsize=figsize)
+        plt.ioff()
+        if(path!=''):
+            fig=plt.gcf()
         nx.draw(self.G,pos=pos,node_size=node_sizes,node_color=node_colors,width=4,edge_color=edge_colors,node_shape=node_shape)
         nx.draw_networkx_labels(self.G, pos=pos, labels=node_labels,font_size=node_fone_size)
         nx.draw_networkx_edge_labels(self.G, pos=pos,edge_labels=edge_label,font_size=link_fone_size) 
+        plt.show()
+        plt.close()
+        if(path!=''):
+            fig.savefig(path)
+    def draw_dynamic(self,pos=[],figsize=[36,20],node_size=10000,node_fone_size=8,link_fone_size=9,node_shape='H',path=''):     #画图，根据资源占用比显示10级别色差
+        node_labels ={}# nx.get_node_attributes(G)
+        edge_label ={}# nx.get_edge_attributes(G)
+        node_colors=[]
+        edge_colors=[]
+        node_sizes=[]
+        color_list=[]
+        color_list1=[(200,0,0),(255,0,0),(255,30,30),(255,60,60),(255,90,90),(255,120,120),(255,150,150),(255,180,180),(255,210,210),(255,240,240)]
+        for data in color_list1:
+            color_list.append((data[0]/255,data[1]/255,data[2]/255))
+        for node in self.G.nodes:
+            color=0
+            strs='ID: '+ str(node.get_id())+'\n' 
+            if(node.is_access()==False):
+                str1=('%-6s ' %('att'))
+                str2=('%-6s ' %('all'))
+                vnf_strs=[]
+                for vnf in node.get_vnfs():
+                    vnf_strs.append('%-6s ' %(str(vnf.get_name())))
+                for key in node.get_atts():
+                    if key != 'access':
+                        str1=str1+('%-8s' %(str(key)))
+                        stra=('%.3g/%.3g' %(node.get_remain_resource()[key],node.get_atts()[key]))
+                        color+=node.get_remain_resource()[key]/node.get_atts()[key]
+                        str2=str2+('%-8s' %(stra))
+                        i=0
+                        for vnf in node.get_vnfs():
+                            stra=('%.3g/%.3g' %(vnf.get_remain_resource()[key],+vnf.get_atts()[key]))
+                            vnf_strs[i]=vnf_strs[i]+('%-8s' %(stra))
+                            i+=1
+                color=int(round(10*color/(len(node.get_atts())-1))-1)
+                if(color<0):
+                    color=0
+                node_colors.append(color_list[color]) 
+                node_sizes.append(node_size)
+                strs=strs+str1+'\n'+str2
+                for vnf_str in vnf_strs:
+                    strs=strs+'\n'+vnf_str
+            else:
+                node_colors.append('red')
+                node_sizes.append(18000)
+            node_labels[node] = strs.rstrip('\n') 
+        for edge in self.G.edges:
+            strs=' '   
+            color=0
+            for key in self.G.edges[edge]:
+                if key =='bandwidth':
+                    stra=('%.3g/%.3g' %(self.G.edges[edge]['remain_bandwidth'],self.G.edges[edge][key]))
+                    color=int(round(10*self.G.edges[edge]['remain_bandwidth']/self.G.edges[edge][key])-1)
+                    if(color<0):
+                        color=0
+                    strs=strs+'BW'+':'+stra+'\n'
+                elif key!='remain_bandwidth':
+                    strs=strs+key+':'+str(self.G.edges[edge][key])+'\n'
+            edge_label[edge] = strs.rstrip('\n') 
+            edge_colors.append(color_list[color])
+        if self.figure=='':
+            self.figure=plt.figure(figsize=figsize)
+            plt.ion() #开启interactive mode 成功的关键函数
+        plt.clf() #清空画布上的所有内容
+        if(path!=''):
+            fig=plt.gcf()
+        nx.draw(self.G,pos=pos,node_size=node_sizes,node_color=node_colors,width=4,edge_color=edge_colors,node_shape=node_shape)
+        nx.draw_networkx_labels(self.G, pos=pos, labels=node_labels,font_size=node_fone_size)
+        nx.draw_networkx_edge_labels(self.G, pos=pos,edge_labels=edge_label,font_size=link_fone_size)
+        plt.show()
+        if(path!=''):
+            fig.savefig(path)

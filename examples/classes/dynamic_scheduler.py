@@ -1,12 +1,5 @@
-####################################
-#dynamic_scheduler类资源占用测试
-####################################
-import sys     
-import os
-path=format(os.getcwd())
-sys.path.append(path) 
-# end    
 from sfcsim import *
+#dynamic_scheduler类资源占用测试
 scheduler=dynamic_scheduler()
 node1=node(uuid='node1',atts={'cpu':10,'memory':10,'storage':10,'access':False})
 node2=node(uuid='node2',atts={'cpu':10,'memory':10,'storage':10,'access':False})
@@ -49,3 +42,5 @@ scheduler.show_occupy_records()
 network.show()
 plt.figure(figsize=[20,15])
 network.draw(nx.shell_layout(network.G))
+plt.show()
+plt.close()

@@ -1,12 +1,6 @@
 #####################################
 ## network类测试文件
-####################################
-#      add sfcsim path to sys path ##########
-import sys     
-import os
-path=format(os.getcwd())
-sys.path.append(path) 
-# end    
+#################################### 
 from sfcsim import *
 import matplotlib.pyplot as plt
 import networkx as nx

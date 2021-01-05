@@ -1,14 +1,8 @@
 ########################  
 #nodes类测试
 ########################
-#      add sfcsim path to sys path ##########
-import sys     
-import os
-path=format(os.getcwd())
-sys.path.append(path) 
-# end    
+#      add sfcsim path to sys path ########## 
 from sfcsim import *
-from network import *
 print(nodes.__doc__)
 ##########################节点添加删除测试##########################################
 print('*****************     测试添加删除节点    ******************')

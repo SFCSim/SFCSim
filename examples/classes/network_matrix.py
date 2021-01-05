@@ -1,11 +1,6 @@
 #####################################
 ## vnf_types类测试文件
 ####################################
-import sys     
-import os
-path=format(os.getcwd())
-sys.path.append(path) 
-# end    
 from sfcsim import *
 cernnet=cernnet2()
 node_list=['node1','node2','node3','node4','node5']

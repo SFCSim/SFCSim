@@ -6,8 +6,8 @@ import time
 from sfcsim.classes import *
 #产生新解方式：改变nf部署位置
 class SA_scheduler(dynamic_scheduler):
-    def __init__(self,T0=100,Tmin=2,K=30):
-        super(SA_scheduler, self).__init__()
+    def __init__(self,T0=100,Tmin=2,K=30,log=False):   #log=means not to print deployment procedure information
+        super(SA_scheduler, self).__init__(log=log)
         self.max_deploy_record={}          #存储最优解的解量
         self.max_deploy_solution={}        #存储最优解的数字量
         self.global_max_deploy_record={}        #存储全局最优解记录

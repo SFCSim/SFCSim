@@ -2,11 +2,6 @@
 #####################################
 ## network_matrixs类测试
 ####################################
-import sys     
-import os
-path=format(os.getcwd())
-sys.path.append(path) 
-# end    
 from sfcsim import *
 node_list=['node1','node2','node3','node4','node5']
 edge=[[1,0,1,1,1],[0,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]]

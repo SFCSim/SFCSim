@@ -45,14 +45,14 @@ class node():
                     return True                    
             else:
                 if self.is_access()==True:
-                    print('error!!!you can\'t set access node resource attribute')
+                    print('log: you can\'t set access node resource attribute')
                     return False
             for key in atts:
                 self.atts[key]=atts[key]
                 self.remain_resource[key]=atts[key]
                 return True
         else:
-            print('error!!!node doen\'t idle, can\'t change attribute')
+            print('log: node doen\'t idle, can\'t change attribute')
             return False
     def get_atts(self):
         return self.atts
@@ -66,10 +66,10 @@ class node():
                 self.atts['access']=True
                 return True
             else:
-                print('set access error!!!Can\'t set this node as access node because IT is occupied by VNF')
+                print('log: set access fail!!!Can\'t set this node as access node because IT is occupied by VNF')
                 return False
         else:
-            print('warnning!!!Can\'t set this node as access node because it alerady is access node')
+            print('log: Can\'t set this node as access node because it alerady is access node')
             return False
     def search_vnf_type(self,name):
         i=0
@@ -88,17 +88,17 @@ class node():
                         if self.remain_resource[key]>=atts[key]:
                             remain_resource[key]=self.remain_resource[key]-atts[key]
                         else:
-                            print('error!!! vnf need ',key,' resource',atts[key],', but node only has ',self.remain_resource[key],'.')
+                            # print('log: add %s to node %s fail, vnf need %s resource %.2f, but node noly has %.2f' %(vnf.get_name(),self.id,key,atts[key],self.remain_resource[key]))
                             return False
                     else:
-                        print('error!!! node doesn\' t has this kind of resource:',key)
+                        # print('log:  node doesn\' t has this kind of resource:',key)
                         return False
                 for key in remain_resource:
                     self.remain_resource[key]= remain_resource[key]
                 self.vnfs.append(vnf)
                 return True
             else:
-                print('add vnf error!!! node aleardy has one instance of this type vnf')
+                # print('log:  add vnf fail,node aleardy has one instance of this type vnf')
                 return False
     def delete_vnf(self,name):
         index=self.search_vnf_type(name)
@@ -125,7 +125,7 @@ class node():
             self.vnfs[index].set_remain_resource(vnf_remain_resource)
             return True
         else:
-            print('add vnf error!!! node aleardy has one instance of this type vnf')
+            # print('log:   add vnf fail, node aleardy has one instance of this type vnf')
             return False
     def scale_out_vnf(self,name,atts):   #增加节点中vnf资源
         index=self.search_vnf_type(name)
@@ -136,10 +136,10 @@ class node():
                     if self.remain_resource[key]>=atts[key]:
                         remain_resource[key]=self.remain_resource[key]-atts[key]
                     else:
-                        print('error!!! vnf need ',key,' resource',atts[key],', but node only has ',self.remain_resource[key],'.')
+                        # print('log:   scale out vnf %s in node %s fail, vnf need %s resource %.2f, but node noly has %.2f' %(self.vnfs[index].get_name(),self.id,key,atts[key],self.remain_resource[key]))
                         return False
                 else:
-                    print('error!!! node doesn\' t has this kind of resource:',key)
+                    # print('log:  node doesn\' t has this kind of resource:',key)
                     return False
             
             for key in atts :   #scale_out节点中vnf需要将vnf的remian_resource增加并修改vnf的atts
@@ -148,7 +148,7 @@ class node():
                 self.vnfs[index].get_remain_resource()[key]+=atts[key]
             return True
         else:
-            print('add vnf error!!! node aleardy has one instance of this type vnf')
+            # print('log:   add vnf fail, node aleardy has one instance of this type vnf')
             return False
     def get_vnfs(self):
         return self.vnfs
@@ -260,7 +260,7 @@ class nodes():
                 print('**********      node has exist     **********')
                 return False
         else:
-            print('attribute error!!! The parameter passed in must be node type')
+            print('log: attribute error!!! The parameter passed in must be node type')
             return False
     def add_nodes(self,nodes):
         for node in nodes:
@@ -281,7 +281,7 @@ class nodes():
                     self.__server_number-=1
                     return self.__server_nodes.pop(self.search_server_node(uuid))
             else:
-                print('error!!!can delete',uuid,'node doesn\'t idle')
+                print('log: can delete',uuid,'node doesn\'t idle')
                 return False
     def set_access_nodes(self,uuids):
         for uuid in uuids:
@@ -354,10 +354,6 @@ class nodes():
             return False
         else: 
             self.nodes[index].delete_vnf(vnf_uuid) 
-#     def show(self):
-#         print('**********     show',self.number,'nodes     **********')
-#         for node in self.nodes:
-#             node.show()
     def show_access(self):
         print('*****    there are ',self.__access_number,'access nodes    *****')
         print('    %-6s    %-6s    %-62s    %-45s' %('number','id','att','remain_resource'))

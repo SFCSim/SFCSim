@@ -12,8 +12,9 @@ class scheduler():
         deploy_link
         remove_link
     '''
-    def __init__(self):
+    def __init__(self,log=True):
         self.__records={}
+        self.log=log
     def get_records(self):
         return self.__records
     def __deploy_nf(self,name,resource,node):
@@ -27,11 +28,13 @@ class scheduler():
                     if data>=0:
                         d[key]=data
                     else:
-                        print('vnf in %s doesn\'t has enough resource %s(need %d,remain %d) for nf:%s'%(node.get_id(),key,resource[key],remain_resource[key],name))
+                        if self.log==True:
+                            print('log:  vnf in %s doesn\'t has enough resource %s(need %d,remain %d) for nf:%s'%(node.get_id(),key,resource[key],remain_resource[key],name))
                         return False
                 vnf.set_remain_resource(d)
                 return True
-        print(node.get_id(),'doesn\'t has this type of vnf:',name)
+        if self.log==True:
+            print('log:  ',node.get_id(),'doesn\'t has this type of vnf:',name)
         return False
     def deploy_nf(self,sfc,node,i):
         i=i-1
@@ -40,7 +43,8 @@ class scheduler():
         if sfc.get_id() in self.__records:#防止双重部署
             if 'node' in self.__records[sfc.get_id()]:  
                 if i+1 in self.__records[sfc.get_id()]['node']:
-                    print('error!!!you can\'t double deploy the nf(%d) in %s' %(i+1,sfc.get_id()))
+                    if self.log==True:
+                        print('log:  you can\'t double deploy the nf(%d) in %s' %(i+1,sfc.get_id()))
                     return True
         if(self.__deploy_nf(name,resource,node)==True):
             if sfc.get_id() in self.__records:
@@ -89,7 +93,8 @@ class scheduler():
             return True
         else:
             return False
-        print(node.get_id(),'doesn\'t has this type of vnf:',name)
+        if self.log==True:
+            print('log:  ',node.get_id(),'doesn\'t has this type of vnf:',name)
         return False
     def deploy_nf_scale_out(self,sfc,node,i,vnf_types):         #以scale_out的方法部署sfc的第i个vnf
         i=i-1
@@ -98,7 +103,8 @@ class scheduler():
         if sfc.get_id() in self.get_records():#防止双重部署
             if 'node' in self.__records[sfc.get_id()]:  
                 if i+1 in self.__records[sfc.get_id()]['node']:
-                    print('error!!!you can\'t double deploy the nf(%d) in %s' %(i+1,sfc.get_id()))
+                    if self.log==True:
+                        print('log:  you can\'t double deploy the nf(%d) in %s' %(i+1,sfc.get_id()))
                     return True
         if(self.__deploy_nf_scale_out(name,resource,node,vnf_types)==True):
             if sfc.get_id() in self.get_records():
@@ -115,7 +121,8 @@ class scheduler():
                 for key in resource:
                     vnf.get_remain_resource()[key]+=resource[key]
                 return True
-        print(node.get_id(),'doesn\'t has this type of vnf:',name)
+        if self.log==True:
+            print('log:  ',node.get_id(),'doesn\'t has this type of vnf:',name)
         return False
     def remove_nf(self,sfc,i):
         i=i-1
@@ -134,12 +141,14 @@ class scheduler():
             if key=='bandwidth':
                 data['remain_bandwidth']=data1['remain_bandwidth']-att[key]
                 if(data['remain_bandwidth']<0):
-                    print('error!!!link doesn\'t has enough resource for link')
+                    if self.log==True:
+                        print('log:  link %s-%s doesn\'t has enough bandwidth' %(node1.get_id(),node2.get_id()))
                     return False
             else:
                 data[key]=data1[key]-att[key]
                 if(data[key]<0):
-                    print('error!!!link doesn\'t has enough resource for link')
+                    if self.log==True:
+                        print('log:  link %s-%s doesn\'t has enough %d' %(node1.get_id(),node2.get_id(),key))
                     return False    
         return data
     def __record_edge(self,sfc_id,j,nodes):
@@ -162,7 +171,8 @@ class scheduler():
 #                     for i in range(lens-1):
 #                         network.set_edge_atts(nodes[i],nodes[i+1],datas[i])
                 else:
-                    print('error!!!you must deploy the nodes at both ends of the link or endpoint error')
+                    if self.log==True:
+                        print('log:  you must deploy the nodes at both ends of the link or endpoint error')
                     return False
             elif j==sfc.get_length()-1:#判断输出节点是否正确以及nf是否部署
                 if self.__records[sfc.get_id()]['node'][j-1]==nodes[0] and nodes[lens-1].get_id()==sfc.get_out_node():
@@ -175,7 +185,8 @@ class scheduler():
 #                     for i in range(lens-1):
 #                         network.set_edge_atts(nodes[i],nodes[i+1],datas[i])     
                 else:
-                    print('error!!!you must deploy the nodes at both ends of the link or endpoint error')
+                    if self.log==True:
+                        print('log:  you must deploy the nodes at both ends of the link or endpoint error')
                     return False
             else:#判断nf是否部署
                 if self.__records[sfc.get_id()]['node'][j-1]==nodes[0] and self.__records[sfc.get_id()]['node'][j]==nodes[lens-1]:
@@ -188,7 +199,8 @@ class scheduler():
 #                     for i in range(lens-1):
 #                         network.set_edge_atts(nodes[i],nodes[i+1],datas[i])       
                 else:
-                    print('error!!!you must deploy the nodes at both ends of the link or endpoint error') 
+                    if self.log==True:
+                        print('log:  you must deploy the nodes at both ends of the link or endpoint error') 
                     return False
             for i in range(lens-1):
                 if datas[i]!=True:
@@ -196,7 +208,8 @@ class scheduler():
             self.__record_edge(sfc.get_id(),j,nodes)
             return True
         else:
-            print('error!!!you can\'t double deploy the virtual link(%d) in %s' %(j,sfc.get_id()))
+            if self.log==True:
+                print('log:  you can\'t double deploy the virtual link(%d) in %s' %(j,sfc.get_id()))
             return False
     def __remove_link(self,network,node1,node2,att):
         if node1==node2:  #部署在同一个节点的虚拟路链路不占用资源
@@ -258,9 +271,9 @@ class dynamic_scheduler(scheduler):
         deploy_link
         remove_link
     '''
-    def __init__(self):
+    def __init__(self,log=True):
 #         scheduler.__init__(self)
-        super(dynamic_scheduler, self).__init__()
+        super(dynamic_scheduler, self).__init__(log=log)
         self.__records=super(dynamic_scheduler, self).get_records()
         self.__history_records=[]
         self.__node_occupy_records=[]
@@ -296,10 +309,12 @@ class dynamic_scheduler(scheduler):
                             if node1.remain_resource[key]>=atts[key]:
                                 remain_resource[key]=node1.remain_resource[key]-atts[key]
                             else:
-                                print('error!!! vnf need ',key,' resource',atts[key],', but node only has ',node1.remain_resource[key],'.')
+                                if self.log==True:
+                                    print('log:  vnf need ',key,' resource',atts[key],', but node only has ',node1.remain_resource[key],'.')
                                 return False
                         else:
-                            print('error!!! node doesn\' t has this kind of resource:',key)
+                            if self.log==True:
+                                print('log:  node %s doesn\' t has this kind of resource:%s' %(node1.get_id(),key))
                             return False
                     for key in remain_resource:
                         node1.remain_resource[key]= remain_resource[key]
@@ -325,12 +340,14 @@ class dynamic_scheduler(scheduler):
                         if key=='bandwidth':
                             data['remain_bandwidth']=data1['remain_bandwidth']-att[key]
                             if(data['remain_bandwidth']<0):
-                                print('error!!!link doesn\'t has enough resource for link')
+                                if self.log==True:
+                                    print('log:  link %d-%d doesn\'t has enough resource' %(node1.get_id(),node2.get_id()))
                                 return False
                         else:
                             data[key]=data1[key]-att[key]
                             if(data[key]<0):
-                                print('error!!!link doesn\'t has enough resource for link')
+                                if self.log==True:
+                                    print('log:  link %d-%d doesn\'t has enough resource' %(node1.get_id(),node2.get_id()))
                                 return False    
                     datas.append(data)
             for i in range(l-1):
@@ -399,7 +416,7 @@ class dynamic_scheduler(scheduler):
                 len(self.__records[sfc.get_id()]['edge']) ==sfc.get_length()-1:
                 self.sfc_records[sfc.get_id()]=sfc
             else:
-                print('error!!!************* you can\'t add an sfc record that is not fully deployed**************' )
+                print('log: ************* you can\'t add an sfc record that is not fully deployed**************' )
     def show_sfc_records(self):
         for sfc_id in self.sfc_records:
             for index in range(len(self.__history_records)):

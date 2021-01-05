@@ -106,6 +106,7 @@ class cernnet2(network):
         sfc('sfc45','node13','node15',['type2', 'type8', 'type4', 'type3', 'type7'],3.0,10,0,0,self.vnf_types),\
         sfc('sfc46','node17','node13',['type4', 'type5', 'type1', 'type3'],3.9,7,0,0,self.vnf_types),\
             ])
+        self.figure=''
     def generate_edges(self):
         self.add_edges([[self.node1,self.node2,{'bandwidth':10}],[self.node2,self.node3,{'bandwidth':10}],\
                         [self.node3,self.node4,{'bandwidth':10}],[self.node3,self.node5,{'bandwidth':10}],\
@@ -130,17 +131,7 @@ class cernnet2(network):
         for edge in self.G.edges:
             self.set_edge_atts(edge[0],edge[1],{'delay':atts[i]})
             i+=1
-    def draw(self,figsize=[36,20],node_size=10000,node_fone_size=8,link_fone_size=9,node_shape='H'):
-        plt.figure(figsize=figsize)
-        network.draw(self,pos=cernnet2_layout(self.G),node_size=node_size,node_fone_size=node_fone_size,link_fone_size=link_fone_size,node_shape=node_shape)
-        plt.show()
-        plt.close()
+    def draw(self,figsize=[36,20],node_size=10000,node_fone_size=8,link_fone_size=9,node_shape='H',path=''):
+        network.draw(self,figsize=figsize,pos=cernnet2_layout(self.G),node_size=node_size,node_fone_size=node_fone_size,link_fone_size=link_fone_size,node_shape=node_shape)
     def draw_dynamic(self,figsize=[36,20],path='',node_size=10000,node_fone_size=8,link_fone_size=9,node_shape='H'):
-        plt.figure(figsize=figsize)
-        if(path!=''):
-            fig=plt.gcf()
-        network.draw_dynamic(self,pos=cernnet2_layout(self.G),node_size=node_size,node_fone_size=node_fone_size,link_fone_size=link_fone_size,node_shape=node_shape)
-        if(path!=''):
-            fig.savefig(path)
-        plt.show()
-        plt.close()
+        network.draw_dynamic(self,figsize=figsize,pos=cernnet2_layout(self.G),node_size=node_size,node_fone_size=node_fone_size,link_fone_size=link_fone_size,node_shape=node_shape)

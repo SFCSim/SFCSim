@@ -1,47 +1,52 @@
 # SFCSim
 A general network function virtualization resource allocation simulation platform in Python language.  
 
-- Source: [https://github.com/SFCSim/SFCSim](https://note.youdao.com/)
-# dir
-\- sfcsim/&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;main packet  
-\-&emsp;&emsp;&emsp;&emsp;\_\_init\_\_.py  
-\-&emsp;&emsp;&emsp;&emsp;classes/   
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;\_\_init\_\_.py  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;vnf.py  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;\.\.\.  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;scheduler.py    
-\-&emsp;&emsp;&emsp;&emsp;algorithms/  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;\_\_init\_\_.py  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;common.py  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;\.\.\.  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;shortset_path_scheduler.py    
-\-&emsp;&emsp;&emsp;&emsp;layout/  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;\_\_init\_\_.py  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;cellular_layout.py  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;cernnet2_layout.py  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;nsfnet_layout.py  
-\-&emsp;&emsp;&emsp;&emsp;networks/  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;\_\_init\_\_.py  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;cernnet2.py  
-\-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;nsfnet.py
+- Source : [https://github.com/SFCSim/SFCSim](https://note.youdao.com/)
+- Code&emsp;: [https://pypi.org/project/sfcsim/](https://note.youdao.com/)
+# Dir
 
-\- examples/&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;example codes  
-\- &emsp;&emsp;&emsp;&emsp;&emsp;vnf_type.py  
-\- &emsp;&emsp;&emsp;&emsp;&emsp;vnf_types.py  
-\- &emsp;&emsp;&emsp;&emsp;&emsp;node.py  
-\- &emsp;&emsp;&emsp;&emsp;&emsp;nodes.py   
-\- &emsp;&emsp;&emsp;&emsp;&emsp;sfc.py   
-\- &emsp;&emsp;&emsp;&emsp;&emsp;sfcs.py    
-\- &emsp;&emsp;&emsp;&emsp;&emsp;network.py  
-\- &emsp;&emsp;&emsp;&emsp;&emsp;scheduler.py  
-\- &emsp;&emsp;&emsp;&emsp;&emsp;...   
-\- &emsp;&emsp;&emsp;&emsp;&emsp;SA_scheduler.py   
-\- &emsp;&emsp;&emsp;&emsp;&emsp;TS_scheduler.py
-
-\- doc/&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Documentation  
-\-&emsp;&emsp;&emsp;\_\_init\_\_.py  
-\-&emsp;&emsp;&emsp;SFCSim base class design.pdf  
-\-&emsp;&emsp;&emsp;algorithms/ 
+```
+\- sfcsim/                                          main packet  
+\         __init__.py  
+\         classes/   
+\                 __init__.py  
+\                 vnf.py  
+\                 ...  
+\                 scheduler.py    
+\         algorithms/  
+\                    __init_\.py  
+\                   common.py  
+\                   ...  
+\                   shortset_path_scheduler.py    
+\         layout/  
+\                __init_\.py    
+\                cellular_layout.py  
+\                cernnet2_layout.py  
+\                nsfnet_layout.py  
+\         networks/  
+\                  __init__.py  
+\                  cernnet2.py  
+\                  nsfnet.py  
+\  examples/                                        example codes  
+\           classes/  
+\                   vnf_type.py  
+\                   sfc.py   
+\                   network.py  
+\                   ...  
+\                   scheduler.py  
+\           algorithms/  
+\                      SA_scheduler.py   
+\                      TS_scheduler.py  
+\                      PSO_scheduler.py  
+\                      shortest_path_scheduler.py  
+\  doc/                                             Documentation  
+\      SFCSim base class design.pdf  
+\      algorithms/   
+\                 SA_scheduler.pdf   
+\                 TS_scheduler.pdf  
+\                 PSO_scheduler.pdf  
+\                 shortest_path_scheduler.pdf 
+```
 # Install
 Install the latest version of SFCSim:
 

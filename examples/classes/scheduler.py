@@ -1,14 +1,7 @@
 #####################################
 ## scheduler类测试文件
-####################################
-#      add sfcsim path to sys path ##########
-import sys     
-import os
-path=format(os.getcwd())
-sys.path.append(path) 
-# end    
+####################################  
 from sfcsim import *
-from network import *
 import matplotlib.pyplot as plt
 print(scheduler.__doc__)
 scheduler=scheduler()

@@ -1,12 +1,6 @@
 #####################################
 ## sfcs类测试文件
-####################################
-#      add sfcsim path to sys path ##########
-import sys     
-import os
-path=format(os.getcwd())
-sys.path.append(path) 
-# end   
+####################################  
 from sfcsim import *
 print(sfcs.__doc__)
 vnf_types=vnf_types(5)

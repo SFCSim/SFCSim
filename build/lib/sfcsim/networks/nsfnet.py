@@ -84,14 +84,8 @@ class nsfnet(network):
             if edge[0].is_access()==False and edge[1].is_access()==False:
                 self.set_edge_atts(edge[0],edge[1],{'delay':atts[i]})
                 i+=1
-    def draw(self,node_size=40000,node_fone_size=15,link_fone_size=25,node_shape='H'):
-        network.draw(self,pos=nsfnet_layout(self.G),node_size=node_size,node_fone_size=node_fone_size,link_fone_size=link_fone_size,node_shape=node_shape)
+    def draw(self,figsize=[40,20],node_size=40000,node_fone_size=15,link_fone_size=25,node_shape='H',path=''):
+        network.draw(self,figsize=figsize,pos=nsfnet_layout(self.G),node_size=node_size,node_fone_size=node_fone_size,link_fone_size=link_fone_size,node_shape=node_shape,path=path)
     def draw_dynamic(self,path='',node_size=40000,node_fone_size=15,link_fone_size=25,node_shape='H'):
-        plt.figure(figsize=[40,20])
-        if(path!=''):
-            fig=plt.gcf()
         network.draw_dynamic(self,pos=nsfnet_layout(self.G),node_size=node_size,node_fone_size=node_fone_size,link_fone_size=link_fone_size,node_shape=node_shape)
-        plt.show()
-        plt.close()
-        if(path!=''):
-            fig.savefig(path) 
+ 
