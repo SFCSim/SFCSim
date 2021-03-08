@@ -1,8 +1,8 @@
 # SFCSim
 A general network function virtualization resource allocation simulation platform in Python language.  
 
-- Source : [https://github.com/SFCSim/SFCSim](https://note.youdao.com/)
-- Code&emsp;: [https://pypi.org/project/sfcsim/](https://note.youdao.com/)
+- Source : [https://github.com/SFCSim/SFCSim]
+- Code&emsp;: [https://pypi.org/project/sfcsim/]
 # Dir
 
 ```
