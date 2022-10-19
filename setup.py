@@ -39,13 +39,13 @@ def md_to_rst(from_file):
 #     long_description = fh.read()
 long_description = md_to_rst("README.md")
 setup(name='sfcsim',
-      version='1.0.7',
+      version='1.0.8',
       description='Network function virtualization resource allocation simulation tool',
       url='http://github.com/tongling/sfcsim',
       author='Xulingyi',
       author_email='xuly@bupt.edu.cn',
       classifiers=classifiers,
-      # long_description=long_description,
+      long_description=long_description,
       packages =  packages,
       platforms=platforms,
       keywords=keywords,

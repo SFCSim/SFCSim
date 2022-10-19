@@ -19,7 +19,7 @@ def check_score(record,sfcs): #检查服务的总流量大小
     
 cernnet=cernnet2()          #实例化
 scheduler=shortest_path_scheduler(log=True)
-scheduler.deploy_sfcs_with_draw(cernnet,cernnet.vnf_types,cernnet.sfcs,sort=True,period=0.1)  #
+scheduler.deploy_sfcs_with_draw(cernnet,cernnet.vnf_types,cernnet.sfcs,sort=True,period=1)  #
 # scheduler.deploy_sfcs(cernnet,cernnet.vnf_types,cernnet.sfcs,sort=True)
 print('**************************************************************************')
 print('you get grade=>',check_score(scheduler.get_records(),cernnet.sfcs))

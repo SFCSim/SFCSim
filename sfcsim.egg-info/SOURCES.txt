@@ -13,9 +13,11 @@ sfcsim/algorithms/TS_scheduler.py
 sfcsim/algorithms/__init__.py
 sfcsim/algorithms/common.py
 sfcsim/algorithms/shortset_path_scheduler.py
+sfcsim/algorithms/tempCodeRunnerFile.py
 sfcsim/classes/__init__.py
 sfcsim/classes/dynamic_traffic_sfc.py
 sfcsim/classes/mobiel_sfc.py
+sfcsim/classes/mobile_sfc.py
 sfcsim/classes/network.py
 sfcsim/classes/network_matrix.py
 sfcsim/classes/node.py

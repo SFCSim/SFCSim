@@ -15,6 +15,8 @@ class scheduler():
     def __init__(self,log=True):
         self.__records={}
         self.log=log
+    def reset(self):
+        self.__records={}
     def get_records(self):
         return self.__records
     def __deploy_nf(self,name,resource,node):
@@ -274,6 +276,14 @@ class dynamic_scheduler(scheduler):
     def __init__(self,log=True):
 #         scheduler.__init__(self)
         super(dynamic_scheduler, self).__init__(log=log)
+        self.__records=super(dynamic_scheduler, self).get_records()
+        self.__history_records=[]
+        self.__node_occupy_records=[]
+        self.__edge_occupy_records=[]
+        self.T=1              #部署顺序为先auto_scheduling()，周期自增和释放资源，然后执行当前周期部署，第一周期不执行auto_scheduling
+        self.sfc_records={}
+    def reset(self):
+        super(dynamic_scheduler, self).reset()
         self.__records=super(dynamic_scheduler, self).get_records()
         self.__history_records=[]
         self.__node_occupy_records=[]
